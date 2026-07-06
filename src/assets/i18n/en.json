@@ -947,7 +947,9 @@
       "GA": "GA",
       "GD": "GD",
       "PTS": "Pts",
-      "TBD": "TBD"
+      "TBD": "TBD",
+      "PRIZE_WINNERS": "Prize Winners",
+      "PRIZE_WINNERS_HINT": "Winners are decided by the final standings once all matches are played."
     },
     "TEAMS": {
       "TITLE": "Participating Teams",
@@ -1166,7 +1168,10 @@
       "DATE_TIME": "Date & Time",
       "VENUE": "Venue",
       "REFEREE": "Referee",
-      "EXTRA_TIME": "Extra Time"
+      "EXTRA_TIME": "Extra Time",
+      "FULL_TIME": "Full Time",
+      "FULL_TIME_MSG": "Regulation time is up. Complete the match or add extra time.",
+      "ADD_EXTRA_TIME": "Add Extra Time"
     },
     "ADDED_TIME": {
       "TITLE": "Referee Added Time",
@@ -1210,6 +1215,7 @@
       "PENALTY_SCORED": "Scored",
       "PENALTY_MISSED": "Missed",
       "COMPLETE_CONFIRM_MSG": "Are you sure you want to complete this match?",
+      "COMPLETE_CONFIRM_YES": "Yes, Complete It!",
       "DELETE_CONFIRM_MSG": "Are you sure you want to delete this match event? This action cannot be undone.",
       "SUB_IN": "IN",
       "SUB_OUT": "OUT",
@@ -1364,6 +1370,7 @@
       "LINEUP_INVALID": "Starting lineups must have exactly {{ playersOnField }} players, and substitutes cannot exceed {{ subsLimit }} players per team.",
       "ENTER_SCORES": "Please enter scores for both teams.",
       "EXTRA_TIME_STARTED": "Extra time started.",
+      "EXTRA_TIME_PROMPT": "How many minutes of extra time?",
       "EVENT_DELETE_CONFIRM_TITLE": "Delete Event",
       "EVENT_DELETE_CONFIRM_MSG": "Are you sure you want to delete this event?"
     },

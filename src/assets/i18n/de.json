@@ -915,7 +915,9 @@
       "GA": "Tore-",
       "GD": "TD",
       "PTS": "Pkt",
-      "TBD": "Offen"
+      "TBD": "Offen",
+      "PRIZE_WINNERS": "Preisträger",
+      "PRIZE_WINNERS_HINT": "Die Gewinner werden nach dem Endstand ermittelt, sobald alle Spiele gespielt sind."
     },
     "TEAMS": {
       "TITLE": "Teilnehmende Mannschaften",
@@ -1166,7 +1168,10 @@
       "VENUE": "Spielstätte",
       "REFEREE": "Schiedsrichter",
       "PENALTIES": "Elfmeterschießen",
-      "EXTRA_TIME": "Verlängerung"
+      "EXTRA_TIME": "Verlängerung",
+      "FULL_TIME": "Reguläre Spielzeit",
+      "FULL_TIME_MSG": "Die reguläre Spielzeit ist abgelaufen. Beenden Sie das Spiel oder fügen Sie eine Verlängerung hinzu.",
+      "ADD_EXTRA_TIME": "Verlängerung hinzufügen"
     },
     "TABS": {
       "TIMELINE": "Zeitleiste",
@@ -1187,6 +1192,7 @@
       "LINEUPS_ANNOUNCED": "Aufstellungen bekannt gegeben",
       "LINEUPS_ANNOUNCED_DESC": "Kaderauswahl für das Spiel bestätigt",
       "COMPLETE_CONFIRM_MSG": "Möchten Sie dieses Spiel wirklich abschließen?",
+      "COMPLETE_CONFIRM_YES": "Ja, abschließen",
       "DELETE_CONFIRM_MSG": "Möchten Sie dieses Spielereignis wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "SUB_IN": "EIN",
       "SUB_OUT": "AUS",
@@ -1348,6 +1354,7 @@
       "ADDED_TIME_SET": "Nachspielzeit aktualisiert.",
       "PENALTIES_STARTED": "Elfmeterschießen gestartet.",
       "EXTRA_TIME_STARTED": "Verlängerung gestartet.",
+      "EXTRA_TIME_PROMPT": "Wie viele Minuten Verlängerung?",
       "EVENT_DELETE_CONFIRM_TITLE": "Ereignis löschen",
       "EVENT_DELETE_CONFIRM_MSG": "Möchten Sie dieses Ereignis wirklich löschen?"
     },

@@ -477,6 +477,22 @@ export class MatchDetailsComponent implements OnInit {
         this.patchLiveState({ match_period: 'extra_time' }, 'MATCH_DETAILS.TOAST.EXTRA_TIME_STARTED');
     }
 
+    /** Regulation length (minutes) from the tournament schedule; drives the full-time prompt. */
+    matchDuration(): number {
+        return Number(this.match()?.tournament?.settings?.schedule?.matchDuration) || 90;
+    }
+
+    /** Full-time prompt → "Add Extra Time": ask for minutes, then flip into extra time. */
+    async onAddExtraTime() {
+        const minutes = await this.ui.promptNumber(
+            this.translate.instant('MATCH_DETAILS.HEADER.ADD_EXTRA_TIME'),
+            this.translate.instant('MATCH_DETAILS.TOAST.EXTRA_TIME_PROMPT'),
+            5
+        );
+        if (!minutes) return;
+        this.patchLiveState({ match_period: 'extra_time', addedMinutes: minutes }, 'MATCH_DETAILS.TOAST.EXTRA_TIME_STARTED');
+    }
+
     // ── Penalty shootout ─────────────────────────────────────────────────────────
     goToPenalties() {
         this.patchLiveState({ match_period: 'penalties' }, 'MATCH_DETAILS.TOAST.PENALTIES_STARTED');
@@ -640,8 +656,9 @@ export class MatchDetailsComponent implements OnInit {
 
     async handleCompleteMatch() {
         const confirmed = await this.ui.confirmAction(
-            'Complete Match',
-            this.translate.instant('MATCH_DETAILS.TIMELINE.COMPLETE_CONFIRM_MSG')
+            this.translate.instant('MATCH_DETAILS.TIMELINE.COMPLETE_MATCH'),
+            this.translate.instant('MATCH_DETAILS.TIMELINE.COMPLETE_CONFIRM_MSG'),
+            this.translate.instant('MATCH_DETAILS.TIMELINE.COMPLETE_CONFIRM_YES')
         );
         if (!confirmed) return;
 

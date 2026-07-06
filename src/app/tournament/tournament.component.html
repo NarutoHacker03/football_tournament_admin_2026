@@ -166,8 +166,12 @@
                 </div>
                 <!-- Image -->
                 <div class="lg:w-1/4 relative rounded-lg overflow-hidden bg-zinc-800 aspect-video lg:aspect-auto">
+                    <!-- Tournament logo, centered -->
+                    <img *ngIf="tournamentImage(tournament)" [src]="tournamentImage(tournament)" [alt]="tournament.name"
+                        class="absolute inset-0 w-full h-full object-contain object-center p-4">
                     <!-- Image Placeholder -->
-                    <div class="absolute inset-0 bg-zinc-700/50 flex items-center justify-center">
+                    <div *ngIf="!tournamentImage(tournament)"
+                        class="absolute inset-0 bg-zinc-700/50 flex items-center justify-center">
                         <span class="text-xs text-zinc-500">{{ 'TOURNAMENTS.IMAGE' | translate }}</span>
                     </div>
                     <div class="absolute bottom-3 left-3 bg-gold-400 text-black text-xs font-bold px-2 py-0.5 rounded">

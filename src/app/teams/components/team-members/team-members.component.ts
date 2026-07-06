@@ -56,6 +56,14 @@ export class TeamMembersComponent implements OnInit {
   editingMemberId = signal<string | null>(null);
   activeMenuId = signal<string | null>(null);
 
+  // Photo upload (Add/Edit modal)
+  photoPreview = signal<string | null>(null);
+  isUploadingPhoto = signal(false);
+
+  // Read-only "View Profile" modal
+  isProfileOpen = signal(false);
+  profileMember = signal<TeamMember | null>(null);
+
   /** True when arriving from a tournament's add-team flow. */
   hasTournamentContext = computed(() => !!this.tournamentId);
   /** Whether the squad has reached the tournament's minimum member count. */
@@ -133,6 +141,8 @@ export class TeamMembersComponent implements OnInit {
   openAddModal(type: 'player' | 'staff') {
     this.editingMemberId.set(null);
     this.newMember = this.getInitialMemberState(type);
+    this.photoPreview.set(null);
+    this.isUploadingPhoto.set(false);
     this.isModalOpen.set(true);
     this.activeMenuId.set(null); // close any open native menu
   }
@@ -140,6 +150,8 @@ export class TeamMembersComponent implements OnInit {
   openEditModal(member: TeamMember) {
     this.editingMemberId.set(member.id);
     this.newMember = { ...member }; // open a copy to edit
+    this.photoPreview.set(member.photoUrl ? this.imgUrl(member.photoUrl) : null);
+    this.isUploadingPhoto.set(false);
     this.isModalOpen.set(true);
     this.activeMenuId.set(null);
   }
@@ -148,6 +160,95 @@ export class TeamMembersComponent implements OnInit {
     this.isModalOpen.set(false);
     this.editingMemberId.set(null);
     this.newMember = this.getInitialMemberState('player');
+    this.photoPreview.set(null);
+    this.isUploadingPhoto.set(false);
+  }
+
+  /** Resolve a member photo path to an absolute URL for display. */
+  imgUrl(path?: string): string {
+    return this.memberService.fullUrl(path);
+  }
+
+  // View Profile (read-only) modal
+  viewProfile(member: TeamMember) {
+    this.profileMember.set(member);
+    this.isProfileOpen.set(true);
+    this.activeMenuId.set(null);
+  }
+
+  closeProfile() {
+    this.isProfileOpen.set(false);
+    this.profileMember.set(null);
+  }
+
+  /** From the profile modal, jump straight into editing the same member. */
+  editFromProfile() {
+    const member = this.profileMember();
+    this.closeProfile();
+    if (member) this.openEditModal(member);
+  }
+
+  /** i18n label for a member's role (e.g. 'vice_captain' → localized). */
+  roleLabel(role?: string): string {
+    return this.translate.instant('TEAM_MEMBERS.ROLES.' + (role || 'player').toUpperCase());
+  }
+
+  /** i18n label for a member's status. */
+  statusLabel(status?: string): string {
+    return this.translate.instant('TEAM_MEMBERS.STATUS.' + (status || 'active').toUpperCase());
+  }
+
+  /** i18n label for a member's preferred foot. */
+  footLabel(foot?: string): string {
+    if (!foot) return '—';
+    return this.translate.instant('TEAM_MEMBERS.FOOT.' + foot.toUpperCase());
+  }
+
+  /** Handle picking a photo: validate, preview instantly, upload, then store the URL. */
+  onPhotoSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    // Accept only PNG/JPG up to 5 MB.
+    const typeOk = ['image/png', 'image/jpeg'].includes(file.type);
+    const sizeOk = file.size <= 5 * 1024 * 1024;
+    if (!typeOk || !sizeOk) {
+      this.ui.showToast(
+        !typeOk ? 'Please choose a PNG or JPG image.' : 'Image must be 5 MB or smaller.',
+        'error'
+      );
+      input.value = '';
+      return;
+    }
+
+    if (!this.teamId) return;
+
+    // Instant local preview while the upload runs.
+    const reader = new FileReader();
+    reader.onload = (e) => this.photoPreview.set(e.target?.result as string);
+    reader.readAsDataURL(file);
+
+    this.isUploadingPhoto.set(true);
+    this.memberService.uploadPhoto(this.teamId, file).subscribe({
+      next: (res) => {
+        this.isUploadingPhoto.set(false);
+        this.newMember.photoUrl = res.photoUrl;
+        this.photoPreview.set(this.imgUrl(res.photoUrl));
+      },
+      error: () => {
+        this.isUploadingPhoto.set(false);
+        this.photoPreview.set(this.newMember.photoUrl ? this.imgUrl(this.newMember.photoUrl) : null);
+        this.ui.showToast('Photo upload failed. Please try again.', 'error');
+      }
+    });
+    input.value = '';
+  }
+
+  /** Remove the currently selected/existing photo. Empty string clears it on save (undefined is ignored by the update). */
+  removePhoto() {
+    this.newMember.photoUrl = '';
+    this.photoPreview.set(null);
   }
 
   // Action Menu Toggle

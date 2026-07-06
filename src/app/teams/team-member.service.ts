@@ -28,6 +28,19 @@ export class TeamMemberService {
         return this.http.get<TeamMember[]>(`${this.apiUrl}/${teamId}/members`);
     }
 
+    /** Upload a member photo and get back its stored `/uploads/...` URL. */
+    uploadPhoto(teamId: string, file: File): Observable<{ photoUrl: string }> {
+        const form = new FormData();
+        form.append('photo', file, file.name);
+        return this.http.post<{ photoUrl: string }>(`${this.apiUrl}/${teamId}/members/photo`, form);
+    }
+
+    /** Turn a relative `/uploads/...` path into an absolute URL against the API host. */
+    fullUrl(path?: string): string {
+        if (!path) return '';
+        return path.startsWith('/uploads') ? `${API_URL}${path}` : path;
+    }
+
     create(teamId: string, data: Partial<TeamMember>): Observable<TeamMember> {
         return this.http.post<TeamMember>(`${this.apiUrl}/${teamId}/members`, data);
     }

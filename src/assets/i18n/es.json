@@ -915,7 +915,9 @@
       "GA": "GC",
       "GD": "DG",
       "PTS": "Pts",
-      "TBD": "Por definir"
+      "TBD": "Por definir",
+      "PRIZE_WINNERS": "Ganadores de premios",
+      "PRIZE_WINNERS_HINT": "Los ganadores se deciden por la clasificación final una vez jugados todos los partidos."
     },
     "TEAMS": {
       "TITLE": "Equipos participantes",
@@ -1166,7 +1168,10 @@
       "VENUE": "Sede",
       "REFEREE": "Árbitro",
       "PENALTIES": "Penaltis",
-      "EXTRA_TIME": "Tiempo Extra"
+      "EXTRA_TIME": "Tiempo Extra",
+      "FULL_TIME": "Tiempo Reglamentario",
+      "FULL_TIME_MSG": "El tiempo reglamentario ha terminado. Finaliza el partido o añade tiempo extra.",
+      "ADD_EXTRA_TIME": "Añadir Tiempo Extra"
     },
     "TABS": {
       "TIMELINE": "Cronología",
@@ -1187,6 +1192,7 @@
       "LINEUPS_ANNOUNCED": "Alineaciones anunciadas",
       "LINEUPS_ANNOUNCED_DESC": "Selección de la plantilla confirmada para el partido",
       "COMPLETE_CONFIRM_MSG": "¿Seguro que quieres finalizar este partido?",
+      "COMPLETE_CONFIRM_YES": "Sí, finalizar",
       "DELETE_CONFIRM_MSG": "¿Seguro que quieres eliminar este evento del partido? Esta acción no se puede deshacer.",
       "SUB_IN": "ENTRA",
       "SUB_OUT": "SALE",
@@ -1348,6 +1354,7 @@
       "ADDED_TIME_SET": "Tiempo añadido actualizado.",
       "PENALTIES_STARTED": "Tanda de penaltis iniciada.",
       "EXTRA_TIME_STARTED": "Tiempo extra iniciado.",
+      "EXTRA_TIME_PROMPT": "¿Cuántos minutos de tiempo extra?",
       "EVENT_DELETE_CONFIRM_TITLE": "Eliminar evento",
       "EVENT_DELETE_CONFIRM_MSG": "¿Está seguro de que desea eliminar este evento?"
     },

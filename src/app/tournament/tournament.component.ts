@@ -9,6 +9,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TournamentCreateModalComponent } from '../components/shared/tournament-create-modal/tournament-create-modal.component';
 import { UiService } from '../services/ui.service';
 import { DatePickerComponent } from '../shared/components/date-picker/date-picker.component';
+import { API_URL } from '../core/config/app.config';
 
 @Component({
     selector: 'app-tournament',
@@ -132,6 +133,18 @@ export class TournamentComponent implements OnInit {
                 }
             });
         }
+    }
+
+    /** Card image: prefer the logo, fall back to the cover. Resolves stored upload paths to an absolute URL. */
+    tournamentImage(t: TournamentDTO): string {
+        const src = t.logo || t.coverImage || '';
+        if (!src) return '';
+        if (src.startsWith('data:') || src.startsWith('http')) return src;
+        // Stored paths come back as "/uploads/..." or "uploads/..." (no leading slash).
+        if (src.includes('uploads/')) {
+            return `${API_URL}${src.startsWith('/') ? '' : '/'}${src}`;
+        }
+        return src;
     }
 
     getStatusLabel(status: string): string {

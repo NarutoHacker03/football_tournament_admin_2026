@@ -56,14 +56,19 @@ export class AuthService {
         return this.http.post(`${this.baseUrl}/resend-otp`, data);
     }
 
-    /** Request a password-reset email containing a tokenized link. */
+    /** Request a password-reset OTP to be emailed to the user. */
     forgotPassword(email: string) {
         return this.http.post(`${this.baseUrl}/forgot-password`, { email });
     }
 
-    /** Set a new password using the token from the reset-link email. */
-    resetPassword(token: string, newPassword: string) {
-        return this.http.post(`${this.baseUrl}/reset-password`, { token, newPassword });
+    /** Verify the emailed OTP matches (without consuming it) before opening the reset page. */
+    verifyResetOtp(email: string, otp: string) {
+        return this.http.post(`${this.baseUrl}/verify-reset-otp`, { email, otp });
+    }
+
+    /** Set a new password using the verified email + OTP. */
+    resetPassword(email: string, otp: string, newPassword: string) {
+        return this.http.post(`${this.baseUrl}/reset-password`, { email, otp, newPassword });
     }
 
     setAuthenticatedUser(user: any, token: string) {

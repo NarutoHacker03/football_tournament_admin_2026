@@ -82,8 +82,9 @@
         <div class="max-w-[1500px] mx-auto">
             <!-- Persistent Header: Always visible at the top -->
             <div class="mb-8">
-                <app-match-header [match]="match()" [isLoading]="ui.isLoadingAction()" [canStart]="isLineupValid" (addLineup)="openLineupModal()"
-                    (startMatch)="handleStartMatch()" (completeMatch)="handleCompleteMatch()">
+                <app-match-header [match]="match()" [isLoading]="ui.isLoadingAction()" [canStart]="isLineupValid"
+                    [matchDuration]="matchDuration()" (addLineup)="openLineupModal()"
+                    (startMatch)="handleStartMatch()" (completeMatch)="handleCompleteMatch()" (addExtraTime)="onAddExtraTime()">
                 </app-match-header>
             </div>
 
@@ -340,7 +341,7 @@
                                             [class.border-gold-400]="eventFormTeam() === 'home'"
                                             [class.border-black-border]="eventFormTeam() !== 'home'"
                                             class="btn flex-1 border font-black text-sm transition-all truncate hover:border-gold-400/50 hover:shadow-[0_0_10px_rgba(212,175,55,0.1)]">
-                                            {{ match().homeTeam?.shortName || ('MATCH_DETAILS.INFO.HOME' | translate) }}
+                                            {{ match().homeTeam?.shortName || match().homeTeam?.name || ('MATCH_DETAILS.INFO.HOME' | translate) }}
                                         </button>
                                         <button (click)="onDirectTeamSwitch('away')" 
                                             [class.bg-gold-400]="eventFormTeam() === 'away'"
@@ -350,7 +351,7 @@
                                             [class.border-gold-400]="eventFormTeam() === 'away'"
                                             [class.border-black-border]="eventFormTeam() !== 'away'"
                                             class="btn flex-1 border font-black text-sm transition-all truncate hover:border-gold-400/50 hover:shadow-[0_0_10px_rgba(212,175,55,0.1)]">
-                                            {{ match().awayTeam?.shortName || ('MATCH_DETAILS.INFO.AWAY' | translate) }}
+                                            {{ match().awayTeam?.shortName || match().awayTeam?.name || ('MATCH_DETAILS.INFO.AWAY' | translate) }}
                                         </button>
                                     </div>
                                 </div>

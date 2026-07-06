@@ -6,7 +6,7 @@
             <div class="flex items-center gap-3">
                 <div
                     class="w-10 h-10 rounded-full bg-black border border-zinc-800 flex items-center justify-center p-1">
-                    <img *ngIf="homeTeam?.logo" [src]="homeTeam.logo" alt="Home Team"
+                    <img *ngIf="teamLogo(homeTeam)" [src]="teamLogo(homeTeam)" alt="Home Team"
                         class="w-full h-full object-contain" />
                 </div>
                 <div>
@@ -73,7 +73,7 @@
             <div class="flex items-center gap-3 flex-row-reverse text-right">
                 <div
                     class="w-10 h-10 rounded-full bg-black border border-zinc-800 flex items-center justify-center p-1">
-                    <img *ngIf="awayTeam?.logo" [src]="awayTeam.logo" alt="Away Team"
+                    <img *ngIf="teamLogo(awayTeam)" [src]="teamLogo(awayTeam)" alt="Away Team"
                         class="w-full h-full object-contain" />
                 </div>
                 <div>
