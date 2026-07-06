@@ -67,7 +67,8 @@ interface DayCell {
       }
 
       @if (open()) {
-        <div class="absolute z-50 mt-2 left-0 w-72 bg-black-card border border-black-border rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] p-3 [color-scheme:dark]"
+        <div class="absolute z-50 left-0 w-72 bg-black-card border border-black-border rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] p-3 [color-scheme:dark]"
+          [ngClass]="dropUp() ? 'bottom-full mb-2' : 'top-full mt-2'"
           (click)="$event.stopPropagation()">
           <!-- Header: month / year navigation -->
           <div class="flex items-center justify-between gap-2 mb-3">
@@ -169,6 +170,8 @@ export class DatePickerComponent implements ControlValueAccessor {
   text = signal<string>(''); // what the field shows / the user types
   open = signal(false);
   disabled = signal(false);
+  /** Open the calendar above the field when there isn't room below (e.g. near the bottom of a scrollable modal). */
+  dropUp = signal(false);
 
   private now = new Date();
   viewYear = signal<number>(this.now.getFullYear());
@@ -225,6 +228,7 @@ export class DatePickerComponent implements ControlValueAccessor {
     if (this.disabled()) return;
     if (!this.open()) {
       this.syncViewTo(this.value() || this.todayIso());
+      this.updateDropDirection();
       this.open.set(true);
     }
   }
@@ -235,9 +239,22 @@ export class DatePickerComponent implements ControlValueAccessor {
       this.open.set(false);
     } else {
       this.syncViewTo(this.value() || this.todayIso());
+      this.updateDropDirection();
       this.open.set(true);
     }
     this.inputEl?.nativeElement.focus();
+  }
+
+  /** Decide whether the popup opens downward or flips up, based on viewport room. */
+  private updateDropDirection(): void {
+    const el = this.inputEl?.nativeElement;
+    if (!el) { this.dropUp.set(false); return; }
+    const rect = el.getBoundingClientRect();
+    const POPUP_HEIGHT = 360; // approx. calendar height incl. padding
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    // Flip up only when there isn't enough room below but there is more above.
+    this.dropUp.set(spaceBelow < POPUP_HEIGHT && spaceAbove > spaceBelow);
   }
 
   onTextInput(raw: string): void {

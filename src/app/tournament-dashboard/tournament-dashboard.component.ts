@@ -169,6 +169,11 @@ export class TournamentDashboardComponent implements OnInit {
     // its default values happen to satisfy a completion rule (e.g. format/finance defaults).
     maxStepIndex = signal<number>(0);
 
+    // Informational tabs (sponsors/presentation/status/results) have no data-driven
+    // completion rule; they turn "complete" (green) once the user saves them. Tracked here
+    // so the stepper reacts when the tab is saved via Save / Save & Next.
+    visitedTabs = signal<Set<string>>(new Set<string>());
+
     /** The reactive FormGroup of the currently-mounted migrated tab (null for non-form tabs). */
     activeForm = signal<FormGroup | null>(null);
 
@@ -240,9 +245,9 @@ export class TournamentDashboardComponent implements OnInit {
         // exists — never merely because the gated setup finished and unlocked them.
         const runtimeRule = this.runtimeCompletionRules[tabId];
         if (runtimeRule) return runtimeRule();
-        // Any other tab (sponsors, presentation, status, results) has no completion
-        // criterion, so it stays neutral ("pending") instead of falsely green.
-        return false;
+        // Informational tabs (sponsors, presentation, status, results) have no data
+        // criterion — they turn complete (green) once the user has saved them.
+        return this.visitedTabs().has(tabId);
     }
 
     private allGatedComplete(): boolean {
@@ -457,6 +462,8 @@ export class TournamentDashboardComponent implements OnInit {
             next: (tournament) => {
                 this.tournament.set(tournament);
                 this.mergeTournamentToSettings(tournament);
+                // Restore completed-tab progress so the green ticks persist across refresh.
+                this.visitedTabs.set(new Set<string>((tournament as any)?.settings?.completedTabs || []));
                 // Baseline the gating snapshot from the persisted data on load.
                 this.snapshotSavedSettings();
                 // Seed the wizard frontier from how far the saved data already reaches.
@@ -681,7 +688,10 @@ export class TournamentDashboardComponent implements OnInit {
             return;
         }
 
+        const savedTab = this.activeTab();
         this.saveChanges(false, () => {
+            // Mark the just-saved tab visited so informational tabs turn green.
+            this.markVisited(savedTab);
             if (goNext) {
                 // Unlock the next step only now that the current one is saved & complete.
                 this.advanceProgress();
@@ -689,6 +699,14 @@ export class TournamentDashboardComponent implements OnInit {
                 if (next && !this.isLocked(next)) this.setTab(next);
             }
         });
+    }
+
+    /** Record that a tab has been saved (drives the "complete" tick for informational tabs). */
+    private markVisited(tabId: string) {
+        if (this.visitedTabs().has(tabId)) return;
+        const next = new Set(this.visitedTabs());
+        next.add(tabId);
+        this.visitedTabs.set(next);
     }
 
     /** Final-step action: validate all gated steps, confirm, then submit. */
@@ -779,6 +797,10 @@ export class TournamentDashboardComponent implements OnInit {
 
         this.showValidationErrors.set(false);
         this.syncRegFee();
+
+        // Persist which informational tabs the user has completed so the green ticks
+        // survive a refresh (stored in the tournament's settings JSON).
+        (this.settings as any).completedTabs = Array.from(this.visitedTabs());
 
         if (!silent) {
             this.ui.startAction();

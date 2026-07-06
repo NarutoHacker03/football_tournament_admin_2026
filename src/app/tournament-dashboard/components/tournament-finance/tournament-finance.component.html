@@ -49,7 +49,7 @@
                 <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-1.5 block">{{ 'TOURNAMENT_DASHBOARD.FINANCE_SETTINGS.TOTAL_PRIZE_MONEY' | translate }}</label>
                 <div class="relative">
                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-bold">€</span>
-                    <input type="number" [(ngModel)]="data.prizeMoney" (ngModelChange)="onTotalPrizeChange()"
+                    <input type="number" [(ngModel)]="data.prizeMoney"
                         class="w-full bg-white/5 border border-black-border rounded-lg pl-8 pr-4 py-3 text-gold-400 font-bold focus:border-gold-400 focus:outline-none transition-all text-xl" />
                 </div>
             </div>
@@ -71,7 +71,7 @@
                     <div class="w-8 h-8 rounded-full bg-gold-400 text-black flex items-center justify-center font-black text-xs shrink-0">{{ 'TOURNAMENT_DASHBOARD.FINANCE_SETTINGS.FIRST_PLACE' | translate }}</div>
                     <div class="flex-1 relative flex items-center">
                         <span class="absolute left-4 text-zinc-500 font-bold">€</span>
-                        <input type="number" [(ngModel)]="data.prizeDistribution[0]" (ngModelChange)="onPrizeChange(0)" placeholder="0"
+                        <input type="number" [(ngModel)]="data.prizeDistribution[0]" placeholder="0"
                             class="w-full bg-transparent border-none pl-8 pr-4 py-1 text-gold-400 font-bold focus:outline-none placeholder-zinc-700" />
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                     <div class="w-8 h-8 rounded-full bg-zinc-300 text-black flex items-center justify-center font-black text-xs shrink-0">{{ 'TOURNAMENT_DASHBOARD.FINANCE_SETTINGS.SECOND_PLACE' | translate }}</div>
                     <div class="flex-1 relative flex items-center">
                         <span class="absolute left-4 text-zinc-500 font-bold">€</span>
-                        <input type="number" [(ngModel)]="data.prizeDistribution[1]" (ngModelChange)="onPrizeChange(1)" placeholder="0"
+                        <input type="number" [(ngModel)]="data.prizeDistribution[1]" placeholder="0"
                             class="w-full bg-transparent border-none pl-8 pr-4 py-1 text-zinc-300 font-bold focus:outline-none placeholder-zinc-700" />
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                     <div class="w-8 h-8 rounded-full bg-amber-600 text-white flex items-center justify-center font-black text-xs shrink-0">{{ 'TOURNAMENT_DASHBOARD.FINANCE_SETTINGS.THIRD_PLACE' | translate }}</div>
                     <div class="flex-1 relative flex items-center">
                         <span class="absolute left-4 text-zinc-500 font-bold">€</span>
-                        <input type="number" [(ngModel)]="data.prizeDistribution[2]" (ngModelChange)="onPrizeChange(2)" placeholder="0"
+                        <input type="number" [(ngModel)]="data.prizeDistribution[2]" placeholder="0"
                             class="w-full bg-transparent border-none pl-8 pr-4 py-1 text-amber-600 font-bold focus:outline-none placeholder-zinc-700" />
                     </div>
                 </div>

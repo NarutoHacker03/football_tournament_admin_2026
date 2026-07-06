@@ -5,6 +5,31 @@
         <p class="text-zinc-500 mt-1.5">{{ 'TOURNAMENT_DASHBOARD.RESULTS.SUBTITLE' | translate }}</p>
     </div>
 
+    <!-- PRIZE WINNERS SECTION -->
+    <div *ngIf="prizeWinners().length > 0" class="mb-8">
+        <h2 class="text-xl font-bold text-white mb-4">{{ 'TOURNAMENT_DASHBOARD.RESULTS.PRIZE_WINNERS' | translate }}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            @for (winner of prizeWinners(); track winner.place) {
+            <div class="bg-black-card border rounded-xl p-5 flex items-center gap-4"
+                [ngClass]="placeClasses(winner.place).ring">
+                <div class="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm shrink-0"
+                    [ngClass]="placeClasses(winner.place).badge">
+                    {{ winner.place === 1 ? '1st' : winner.place === 2 ? '2nd' : '3rd' }}
+                </div>
+                <div class="min-w-0 flex-1">
+                    <p class="font-bold text-white truncate">
+                        {{ winner.team?.name || ('TOURNAMENT_DASHBOARD.RESULTS.TBD' | translate) }}
+                    </p>
+                    <p class="text-lg font-black text-gold-400">€{{ winner.amount | number }}</p>
+                </div>
+            </div>
+            }
+        </div>
+        <p *ngIf="!prizeWinners()[0].team" class="text-xs text-zinc-500 mt-2">
+            {{ 'TOURNAMENT_DASHBOARD.RESULTS.PRIZE_WINNERS_HINT' | translate }}
+        </p>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
 

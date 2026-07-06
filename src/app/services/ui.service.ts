@@ -69,6 +69,40 @@ export class UiService {
     }
   }
 
+  /**
+   * Prompt for a positive whole number (e.g. extra-time minutes). Resolves to the
+   * entered number, or null if the user cancelled or entered nothing valid.
+   */
+  async promptNumber(title: string, text: string, defaultValue = 5, confirmText = 'OK'): Promise<number | null> {
+    const result = await Swal.fire({
+      title,
+      text,
+      input: 'number',
+      inputValue: String(defaultValue),
+      inputAttributes: { min: '1', step: '1' },
+      showCancelButton: true,
+      confirmButtonText: confirmText,
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#FBBF24',
+      cancelButtonColor: '#27272a',
+      background: '#1a1a1a',
+      color: '#ffffff',
+      customClass: {
+        popup: 'border border-gold-400/20 shadow-[0_0_30px_rgba(251,191,36,0.15)] rounded-2xl',
+        confirmButton: 'text-black font-bold uppercase tracking-widest text-sm px-6 py-2.5 rounded-lg',
+        cancelButton: 'font-bold uppercase tracking-widest text-sm px-6 py-2.5 rounded-lg text-zinc-300 hover:bg-zinc-700'
+      },
+      inputValidator: (value) => {
+        const n = Number(value);
+        if (!value || isNaN(n) || n < 1) return 'Please enter a valid number of minutes.';
+        return null;
+      }
+    });
+    if (!result.isConfirmed) return null;
+    const n = Math.floor(Number(result.value));
+    return isNaN(n) || n < 1 ? null : n;
+  }
+
   confirmAction(title: string, text: string, confirmText: string = 'Yes, delete it!', cancelText: string = 'Cancel'): Promise<boolean> {
     return Swal.fire({
       title: title,

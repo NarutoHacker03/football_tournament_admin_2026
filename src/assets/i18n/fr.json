@@ -915,7 +915,9 @@
       "GA": "BC",
       "GD": "Diff",
       "PTS": "Pts",
-      "TBD": "À définir"
+      "TBD": "À définir",
+      "PRIZE_WINNERS": "Vainqueurs des prix",
+      "PRIZE_WINNERS_HINT": "Les vainqueurs sont déterminés par le classement final une fois tous les matchs joués."
     },
     "TEAMS": {
       "TITLE": "Équipes participantes",
@@ -1166,7 +1168,10 @@
       "VENUE": "Site",
       "REFEREE": "Arbitre",
       "PENALTIES": "Tirs au but",
-      "EXTRA_TIME": "Prolongation"
+      "EXTRA_TIME": "Prolongation",
+      "FULL_TIME": "Fin du temps réglementaire",
+      "FULL_TIME_MSG": "Le temps réglementaire est écoulé. Terminez le match ou ajoutez une prolongation.",
+      "ADD_EXTRA_TIME": "Ajouter une prolongation"
     },
     "TABS": {
       "TIMELINE": "Chronologie",
@@ -1187,6 +1192,7 @@
       "LINEUPS_ANNOUNCED": "Compositions annoncées",
       "LINEUPS_ANNOUNCED_DESC": "Sélection de l'effectif confirmée pour le match",
       "COMPLETE_CONFIRM_MSG": "Êtes-vous sûr de vouloir terminer ce match ?",
+      "COMPLETE_CONFIRM_YES": "Oui, terminer !",
       "DELETE_CONFIRM_MSG": "Êtes-vous sûr de vouloir supprimer cet événement de match ? Cette action est irréversible.",
       "SUB_IN": "ENTRE",
       "SUB_OUT": "SORT",
@@ -1348,6 +1354,7 @@
       "ADDED_TIME_SET": "Temps additionnel mis à jour.",
       "PENALTIES_STARTED": "Séance de tirs au but lancée.",
       "EXTRA_TIME_STARTED": "Prolongation commencée.",
+      "EXTRA_TIME_PROMPT": "Combien de minutes de prolongation ?",
       "EVENT_DELETE_CONFIRM_TITLE": "Supprimer l'événement",
       "EVENT_DELETE_CONFIRM_MSG": "Êtes-vous sûr de vouloir supprimer cet événement ?"
     },

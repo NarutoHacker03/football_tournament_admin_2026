@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, Router, ActivatedRoute } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -19,10 +19,10 @@ import { AuthService } from '../auth.service';
         </div>
 
         <div class="bg-white/[0.03] border border-white/10 rounded-3xl p-8 md:p-10">
-          @if (!token()) {
+          @if (!email() || !otp()) {
             <div class="text-center py-4">
-              <p class="text-red-400 mb-4">Invalid or missing reset token.</p>
-              <a routerLink="/forgot-password" class="text-[#D4AF37] hover:underline text-sm">Request a new link</a>
+              <p class="text-red-400 mb-4">Your reset session has expired.</p>
+              <a routerLink="/forgot-password" class="text-[#D4AF37] hover:underline text-sm">Request a new code</a>
             </div>
           } @else if (success()) {
             <div class="text-center">
@@ -110,7 +110,8 @@ import { AuthService } from '../auth.service';
     `
 })
 export class ResetPasswordComponent implements OnInit {
-    token = signal('');
+    email = signal('');
+    otp = signal('');
     newPassword = '';
     confirmPassword = '';
     loading = signal(false);
@@ -119,15 +120,13 @@ export class ResetPasswordComponent implements OnInit {
     showPassword = signal(false);
     showConfirmPassword = signal(false);
 
-    constructor(
-        private auth: AuthService,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {}
+    constructor(private auth: AuthService) {}
 
     ngOnInit() {
-        const t = this.route.snapshot.queryParamMap.get('token') || '';
-        this.token.set(t);
+        // The forgot-password page navigates here with { email, otp } in router state.
+        const state = history.state || {};
+        this.email.set(state.email || '');
+        this.otp.set(state.otp || '');
     }
 
     submit() {
@@ -143,14 +142,14 @@ export class ResetPasswordComponent implements OnInit {
         if (this.loading()) return;
 
         this.loading.set(true);
-        this.auth.resetPassword(this.token(), this.newPassword).subscribe({
+        this.auth.resetPassword(this.email(), this.otp(), this.newPassword).subscribe({
             next: () => {
                 this.loading.set(false);
                 this.success.set(true);
             },
             error: (err) => {
                 this.loading.set(false);
-                this.error.set(err?.error?.error || 'Reset failed. The link may have expired.');
+                this.error.set(err?.error?.error || 'Reset failed. The code may have expired.');
             }
         });
     }
